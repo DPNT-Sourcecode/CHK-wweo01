@@ -1,5 +1,6 @@
 # -*- encoding: utf-8 -*-
 from collections import defaultdict
+import math
 
 
 price_data = {
@@ -8,30 +9,46 @@ price_data = {
     'C': 20,
     'D': 15,
     'E': 40,
+    'F': 10,
 }
 special_price = {
     'A': [(5, 200), (3, 130)],
     'B': [(2, 45)],
 }
+# not used currently
 other_specials = {
     '2E': 'B'
 }
 
-# noinspection PyUnusedLocal
-# skus = unicode string
-def checkout(skus):
-    skus = skus.strip()
-    total = 0
 
+def trim_and_count(skus):
+    skus = skus.strip()
     counter = defaultdict(int)
     for c in skus:
         if c not in price_data:
-            return -1
+            raise Exception()
         counter[c] += 1
+    return counter
+
+
+# noinspection PyUnusedLocal
+# skus = unicode string
+def checkout(skus):
+    try:
+        counter = trim_and_count(skus)
+    except Exception:
+        return -1
 
     # strip out the Bs if we have sufficient Es exist here:
     number_of_es = counter.get('E', 0)
     counter['B'] = max(0, counter['B'] - (number_of_es//2))
+
+    # strip out the Fs if we have sufficient Fs exist here:
+    number_of_fs = counter.get('F', 0)
+    counter['F'] = max(0, int(math.ceil(counter['F']*2.0/3.0)))
+
+
+    total = 0
 
     for k,v in counter.items():
         discount_list = special_price.get(k, [])
@@ -46,6 +63,12 @@ def checkout(skus):
     return total
 
 
+assert checkout('F') == 10
+assert checkout('FFF') == 20
+assert checkout('FFFF') == 30
+assert checkout('FFFFFF') == 40
+
+assert checkout('BEEBE') == 80+40+30
 assert checkout("A") == 50
 assert checkout("AB") == 50+30
 assert checkout("ABZ") == -1
@@ -65,4 +88,5 @@ assert checkout('EEB') == 80
 assert checkout('EEBEEEE') == 80*3
 assert checkout('BEEBEE') == 80*2
 assert checkout('BEEBE') == 80+40+30
+
 
