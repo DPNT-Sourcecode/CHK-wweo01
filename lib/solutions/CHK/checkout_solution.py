@@ -36,6 +36,7 @@ def checkout(skus):
     for k,v in counter.items():
         discount_list = special_price.get(k, [])
         if discount_list:
+            # This wont work if our discounts get weird
             for the_discount in discount_list:
                 while v >= the_discount[0]:
                     total += the_discount[1]
@@ -45,24 +46,26 @@ def checkout(skus):
     return total
 
 
-# assert checkout("A") == 50
-# assert checkout("AB") == 50+30
-# assert checkout("ABZ") == -1
-# assert checkout("£$%") == -1
-# assert checkout("AAA") == 130
-# assert checkout("AAAA") == 130+50
-# assert checkout("AAAABBD") == 130+50+45+15
-# assert checkout("AABBDAA") == 130+50+45+15
+assert checkout("A") == 50
+assert checkout("AB") == 50+30
+assert checkout("ABZ") == -1
+assert checkout("£$%") == -1
+assert checkout("AAA") == 130
+assert checkout("AAAA") == 130+50
+assert checkout("AAAABBD") == 130+50+45+15
+assert checkout("AABBDAA") == 130+50+45+15
 
 assert checkout("AAAAA") == 200
 assert checkout("AAAAAA") == 250
 assert checkout("AAAAAAA") == 300
+assert checkout("AAAAAAAAA") == 380
 
 assert checkout('E') == 40
 assert checkout('EEB') == 80
 assert checkout('EEBEEEE') == 80*3
 assert checkout('BEEBEE') == 80*2
 assert checkout('BEEBE') == 80+40+30
+
 
 
 
