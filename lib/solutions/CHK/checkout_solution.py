@@ -72,7 +72,7 @@ def apply_special_discounts(counter):
     counter['Q'] = max(0, counter['Q'] - (number_of_rs//3))
 
     # 3U get one U free
-    counter['U'] = max(0, int(math.ceil(counter['U']*2.0/3.0)))
+    counter['U'] = max(0, int(math.ceil(counter['U']*3.0/4.0)))
 
 
 # noinspection PyUnusedLocal
@@ -131,6 +131,8 @@ assert checkout('UUVV') == 40*2 + 90
 assert checkout('UUVVUU') == 40*3 + 90
 assert checkout('P') == 50
 assert checkout('PPPPPP') == 50+200
+assert checkout('UUU') == 120
+
 
 
 
