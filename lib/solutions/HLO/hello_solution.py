@@ -10,5 +10,3 @@ def hello(friend_name):
 
 assert hello("") == "Hello, World!"
 assert hello("bob") == "Hello, bob!"
-
-

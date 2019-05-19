@@ -45,6 +45,3 @@ assert checkout("AAAA") == 130+50
 assert checkout("AAAABBD") == 130+50+45+15
 assert checkout("AABBDAA") == 130+50+45+15
 
-
-
-
