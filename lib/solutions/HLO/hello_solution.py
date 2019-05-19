@@ -8,6 +8,7 @@ def hello(friend_name):
     return "Hello, {}!".format(friend_name)
 
 
-assert hello("") == "Hello, Word!"
+assert hello("") == "Hello, World!"
 assert hello("bob") == "Hello, bob!"
+
 
