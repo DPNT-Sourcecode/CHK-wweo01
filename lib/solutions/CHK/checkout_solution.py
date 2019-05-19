@@ -14,7 +14,7 @@ price_data = {
     'H': 10,
     'I': 35,
     'J': 60,
-    'K': 80,
+    'K': 70,
     'L': 90,
     'M': 15,
     'N': 40,
@@ -22,21 +22,21 @@ price_data = {
     'P': 50,
     'Q': 30,
     'R': 50,
-    'S': 30,
+    'S': 20,
     'T': 20,
     'U': 40,
     'V': 50,
     'W': 20,
-    'X': 90,
-    'Y': 10,
-    'Z': 50,
+    'X': 17,
+    'Y': 20,
+    'Z': 21,
 }
 
 special_price = {
     'A': [(5, 200), (3, 130)],
     'B': [(2, 45)],
     'H': [(10, 80), (5, 45)],
-    'K': [(2, 150)],
+    'K': [(2, 120)],
     'P': [(5, 200)],
     'Q': [(3, 80)],
     'V': [(3, 130), (2, 90)],
@@ -75,6 +75,10 @@ def apply_special_discounts(counter):
     counter['U'] = max(0, int(math.ceil(counter['U']*3.0/4.0)))
 
 
+def apply_multi_buy(counter):
+    pass
+
+
 # noinspection PyUnusedLocal
 # skus = unicode string
 def checkout(skus):
@@ -84,6 +88,7 @@ def checkout(skus):
         return -1
 
     apply_special_discounts(counter)
+    apply_multi_buy(counter)
 
     total = 0
 
@@ -99,6 +104,10 @@ def checkout(skus):
             total += price_data[k] * v
     return total
 
+assert checkout('S') == 20
+assert checkout('SSSSS') == 45
+assert checkout('SSSSSTXYZT') == 90
+assert checkout('SSSSSTXYZTFFF') == 90+20
 
 assert checkout('F') == 10
 assert checkout('FF') == 20
@@ -132,4 +141,5 @@ assert checkout('UUVVUU') == 40*3 + 90
 assert checkout('P') == 50
 assert checkout('PPPPPP') == 50+200
 assert checkout('UUU') == 120
+
 
