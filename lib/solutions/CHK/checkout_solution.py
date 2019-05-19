@@ -84,13 +84,13 @@ def apply_multi_buy(counter):
     for c in multibuy:
         total_multibuy_items += counter.get(c, 0)
 
-    while total_multibuy_items >= 5:
-        to_remove_this_time = 5
+    while total_multibuy_items >= 3:
+        to_remove_this_time = 3
         for c in multibuy:
             to_sub_z = min(to_remove_this_time, counter.get(c, 0))
             counter[c] = counter.get(c, 0) - to_sub_z
             to_remove_this_time -= to_sub_z
-        total_multibuy_items -= 5
+        total_multibuy_items -= 3
         total += 45
 
     return total
@@ -121,13 +121,12 @@ def checkout(skus):
 
 
 assert checkout('S') == 20
-assert checkout('SSSSS') == 45
-assert checkout('SSSSSTXYZT') == 90
-assert checkout('SSSSSTXYZTFFF') == 90+20
 
-assert checkout('XSTXYZ') == 45 + 17
-assert checkout('ZZZZXZ') == 45 + 17
-assert checkout('ZZZZZZ') == 45 + 21
+assert checkout('SSS') == 45
+assert checkout('STXSTX') == 90
+assert checkout('STX') == 45
+assert checkout('STXZ') == 45+17
+
 
 assert checkout('F') == 10
 assert checkout('FF') == 20
@@ -161,6 +160,7 @@ assert checkout('UUVVUU') == 40*3 + 90
 assert checkout('P') == 50
 assert checkout('PPPPPP') == 50+200
 assert checkout('UUU') == 120
+
 
 
 
