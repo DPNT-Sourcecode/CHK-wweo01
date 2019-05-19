@@ -66,7 +66,3 @@ assert checkout('EEBEEEE') == 80*3
 assert checkout('BEEBEE') == 80*2
 assert checkout('BEEBE') == 80+40+30
 
-
-
-
-
