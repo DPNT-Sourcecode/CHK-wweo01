@@ -15,10 +15,6 @@ special_price = {
     'A': [(5, 200), (3, 130)],
     'B': [(2, 45)],
 }
-# not used currently
-other_specials = {
-    '2E': 'B'
-}
 
 
 def trim_and_count(skus):
@@ -39,11 +35,13 @@ def checkout(skus):
     except Exception:
         return -1
 
+    #  2E get one B free
     # strip out the Bs if we have sufficient Es exist here:
     number_of_es = counter.get('E', 0)
     counter['B'] = max(0, counter['B'] - (number_of_es//2))
 
     # strip out the Fs if we have sufficient Fs exist here:
+    # 2F get one F free
     number_of_fs = counter.get('F', 0)
     counter['F'] = max(0, int(math.ceil(counter['F']*2.0/3.0)))
 
@@ -64,9 +62,11 @@ def checkout(skus):
 
 
 assert checkout('F') == 10
+assert checkout('FF') == 20
 assert checkout('FFF') == 20
 assert checkout('FFFF') == 30
 assert checkout('FFFFFF') == 40
+assert checkout('FFEFFFF') == 40+40
 
 assert checkout('BEEBE') == 80+40+30
 assert checkout("A") == 50
@@ -88,5 +88,6 @@ assert checkout('EEB') == 80
 assert checkout('EEBEEEE') == 80*3
 assert checkout('BEEBEE') == 80*2
 assert checkout('BEEBE') == 80+40+30
+
 
 
