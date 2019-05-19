@@ -41,7 +41,7 @@ special_price = {
     'Q': [(3, 80)],
     'V': [(3, 130), (2, 90)],
 }
-
+multibuy = ['Z', 'S','T', 'Y', 'X']
 
 def trim_and_count(skus):
     skus = skus.strip()
@@ -76,7 +76,20 @@ def apply_special_discounts(counter):
 
 
 def apply_multi_buy(counter):
-    pass
+    # need to remove most expensive ones first
+
+    total_multibuy_items = 0
+    for c in multibuy:
+        total_multibuy_items += counter.get(c, 0)
+
+    while total_multibuy_items >= 5:
+        to_remove_this_time = 5
+        for c in multibuy:
+            to_sub_z = min(to_remove_this_time, counter.get(c, 0))
+            counter[c] = counter.get(c) - to_sub_z
+            to_remove_this_time -= to_sub_z
+        total_multibuy_items -= to_remove_this_time
+
 
 
 # noinspection PyUnusedLocal
@@ -108,6 +121,10 @@ assert checkout('S') == 20
 assert checkout('SSSSS') == 45
 assert checkout('SSSSSTXYZT') == 90
 assert checkout('SSSSSTXYZTFFF') == 90+20
+
+assert checkout('XSTXYZ') == 45 + 17
+assert checkout('ZZZZXZ') == 45 + 17
+assert checkout('ZZZZZZ') == 45 + 21
 
 assert checkout('F') == 10
 assert checkout('FF') == 20
@@ -141,5 +158,6 @@ assert checkout('UUVVUU') == 40*3 + 90
 assert checkout('P') == 50
 assert checkout('PPPPPP') == 50+200
 assert checkout('UUU') == 120
+
 
 
