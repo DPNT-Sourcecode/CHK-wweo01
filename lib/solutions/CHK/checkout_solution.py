@@ -133,7 +133,3 @@ assert checkout('P') == 50
 assert checkout('PPPPPP') == 50+200
 assert checkout('UUU') == 120
 
-
-
-
-
