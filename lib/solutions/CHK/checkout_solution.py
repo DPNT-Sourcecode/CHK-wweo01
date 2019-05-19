@@ -10,8 +10,8 @@ price_data = {
     'E': 40,
 }
 special_price = {
-    'A': [(3, 130), (5, 200)],
-    'B': (2, 45),
+    'A': [(5, 200), (3, 130)],
+    'B': [(2, 45)],
 }
 other_specials = {
     '2E': 'B'
@@ -34,11 +34,12 @@ def checkout(skus):
     counter['B'] = max(0, counter['B'] - (number_of_es//2))
 
     for k,v in counter.items():
-        discount = special_price.get(k, None)
-        if discount:
-            while v >= discount[0]:
-                total += discount[1]
-                v -= discount[0]
+        discount_list = special_price.get(k, [])
+        if discount_list:
+            for the_discount in discount_list:
+                while v >= the_discount[0]:
+                    total += the_discount[1]
+                    v -= the_discount[0]
         if v > 0:
             total += price_data[k] * v
     return total
@@ -62,6 +63,7 @@ assert checkout('EEB') == 80
 assert checkout('EEBEEEE') == 80*3
 assert checkout('BEEBEE') == 80*2
 assert checkout('BEEBE') == 80+40+30
+
 
 
 
