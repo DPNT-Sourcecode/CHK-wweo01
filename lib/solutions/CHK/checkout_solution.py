@@ -10,7 +10,7 @@ price_data = {
     'E': 40,
 }
 special_price = {
-    'A': (3, 130),
+    'A': [(3, 130), (5, 200)],
     'B': (2, 45),
 }
 other_specials = {
@@ -44,19 +44,24 @@ def checkout(skus):
     return total
 
 
-assert checkout("A") == 50
-assert checkout("AB") == 50+30
-assert checkout("ABZ") == -1
-assert checkout("£$%") == -1
-assert checkout("AAA") == 130
-assert checkout("AAAA") == 130+50
-assert checkout("AAAABBD") == 130+50+45+15
-assert checkout("AABBDAA") == 130+50+45+15
+# assert checkout("A") == 50
+# assert checkout("AB") == 50+30
+# assert checkout("ABZ") == -1
+# assert checkout("£$%") == -1
+# assert checkout("AAA") == 130
+# assert checkout("AAAA") == 130+50
+# assert checkout("AAAABBD") == 130+50+45+15
+# assert checkout("AABBDAA") == 130+50+45+15
+
+assert checkout("AAAAA") == 200
+assert checkout("AAAAAA") == 250
+assert checkout("AAAAAAA") == 300
 
 assert checkout('E') == 40
 assert checkout('EEB') == 80
 assert checkout('EEBEEEE') == 80*3
 assert checkout('BEEBEE') == 80*2
 assert checkout('BEEBE') == 80+40+30
+
 
 
