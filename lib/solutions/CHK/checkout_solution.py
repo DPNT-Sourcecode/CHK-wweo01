@@ -25,10 +25,14 @@ def checkout(skus):
             return -1
         counter[c] += 1
 
-    for c in skus:
-        if c not in price_data:
-            return -1
-        total += price_data[c]
+    for k,v in counter.items():
+        discount = special_price.get(k, None)
+        if discount:
+            while v >= discount[0]:
+                total += discount[1]
+                v -= discount[0]
+        if v > 0:
+            total += price_data[k] * v
     return total
 
 
@@ -40,6 +44,7 @@ assert checkout("AAA") == 130
 assert checkout("AAAA") == 130+50
 assert checkout("AAAABBD") == 130+50+45+15
 assert checkout("AABBDAA") == 130+50+45+15
+
 
 
 
